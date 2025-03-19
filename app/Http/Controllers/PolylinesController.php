@@ -9,7 +9,7 @@ class PolylinesController extends Controller
 {
     public function __construct()
     {
-        $this->points = new  PolylineModel();
+        $this->polyline = new  PolylineModel();
     }
 
     public function index()
@@ -30,7 +30,34 @@ class PolylinesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // validation request
+        $request->validate(
+            [
+            'name' => 'required|unique:polylines,name',
+            'description' => 'required',
+            'geom_polyline' => 'required',
+            ],
+            [
+                'name.required' => 'Name is required',
+                'name.unique' => 'Name already exists',
+                'description.required' => 'Description is required',
+                'geom_polyline.required' => 'Geometry polyline is required',
+            ]);
+
+        $data = [
+            'geom' => $request->geom_polyline,
+            'name' => $request->name,
+            'description' => $request->description
+        ];
+
+        // create data
+        if (!$this->polyline->create($data)) {
+            return redirect()->route('map')->with('error', 'polyline failed to add');
+        }
+
+        // redicted to map
+        return redirect()->route('map')->with('success', 'polyline has been added');
+
     }
 
     /**

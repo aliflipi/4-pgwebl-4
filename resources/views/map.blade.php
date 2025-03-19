@@ -15,7 +15,6 @@
 @endsection
 
 @section('content')
-
     <div id="map"></div>
 
     <!-- Modal -->
@@ -27,32 +26,110 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <form method="POST" action="{{route('points.store')}}">
-                <div class="modal-body">
+                <form method="POST" action="{{ route('points.store') }}">
+                    <div class="modal-body">
                         @csrf
 
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Fill Marker">
-                          </div>
-                          <div class="mb-3">
+                            <input type="text" class="form-control" id="name" name="name"
+                                placeholder="Fill Marker">
+                        </div>
+                        <div class="mb-3">
                             <label for="description" class="form-label">Descripton</label>
                             <textarea class="form-control" id="description" name="description" rows="3"></textarea>
-                          </div>
+                        </div>
 
-                          <div class="mb-3">
+                        <div class="mb-3">
                             <label for="geom_point" class="form-label">Geometry</label>
                             <textarea class="form-control" id="geom_point" name="geom_point" rows="3"></textarea>
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
                         </div>
                     </div>
-                </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+            </div>
+            </form>
         </div>
     </div>
+
+    <!-- modal cretae polyline -->
+
+    <div class="modal fade" id="CreatePolylineModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Create Polyline</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form method="POST" action="{{route('polyline.store')}}">
+                    <div class="modal-body">
+                        @csrf
+
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" name="name"
+                                placeholder="Fill Marker">
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Descripton</label>
+                            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="geom_polyline" class="form-label">Geometry</label>
+                            <textarea class="form-control" id="geom_polyline" name="geom_polyline" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+            </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- modal cretae polygon -->
+
+    <div class="modal fade" id="CreatePolygonModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Create Polygon</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form method="POST" action="{{ route('polygons.store') }}">
+                    <div class="modal-body">
+                        @csrf
+
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" name="name"
+                                placeholder="Fill Marker">
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Descripton</label>
+                            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="geom_polygon" class="form-label">Geometry</label>
+                            <textarea class="form-control" id="geom_polygon" name="geom_polygon" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+            </div>
+            </form>
+        </div>
+    </div>
+
 @endsection
 
 @section('script')
@@ -104,8 +181,18 @@
             if (type === 'polyline') {
                 console.log("Create " + type);
 
+                $('#geom_polyline').val(objectGeometry);
+
+                // memunculkan modal create polyline
+                $('#CreatePolylineModal').modal('show');
+
+                // memunculkan modal create polygon
             } else if (type === 'polygon' || type === 'rectangle') {
                 console.log("Create " + type);
+                $('#geom_polygon').val(objectGeometry);
+
+                $('#CreatePolygonModal').modal('show');
+
 
             } else if (type === 'marker') {
                 console.log("Create " + type);
