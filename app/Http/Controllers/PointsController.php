@@ -40,7 +40,7 @@ class PointsController extends Controller
         //Validation request
         $request->validate(
             [
-                'name' => 'required|unique:points,name',
+                'name' => 'required|unique:points_tables,name',
                 'description' => 'required',
                 'geom_point' => 'required',
                 'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:4048',
@@ -101,7 +101,11 @@ class PointsController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $data=[
+            'title'=>'Edit Point',
+            'id'=> $id,
+        ];
+       return view('edit-point', $data);
     }
 
     /**
@@ -117,6 +121,19 @@ class PointsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $imagefile = $this->points->find($id)->image;
+
+        if (!$this->points->destroy($id)) {
+            return redirect()->route('map')->with('error', 'Failed to delete point');
+        }
+
+        // Delete image file if exists
+        if ($imagefile != null) {
+            if (file_exists('storage/images/' . $imagefile)) {
+                unlink('storage/images/' . $imagefile);
+            }
+        }
+
+        return redirect()->route('map')->with('success', 'Point has been deleted');
     }
 }

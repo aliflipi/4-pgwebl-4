@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('points', function (Blueprint $table) {
+        Schema::create('points_tables', function (Blueprint $table) {
             $table->id();
             $table->geometry('geom');
             $table->string('name');
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('points');
+        Schema::dropIfExists('points_tables');
     }
 };
