@@ -15,20 +15,16 @@
 @section('content')
     <div id="map"></div>
 
-    <!-- Modal Edit Point -->
-    <div class="modal fade" id="editpointModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Modal Edit Polyline -->
+    <div class="modal fade" id="editpolylineModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-<<<<<<< HEAD
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Create Point</h1>
-=======
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Point</h1>
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Polyline</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <form method="POST" action="{{ route('points.store') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('polylines.store') }}" enctype="multipart/form-data">
                     <div class="modal-body">
                         @csrf
 
@@ -44,18 +40,17 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="geom_point" class="form-label">Geometry</label>
-                            <textarea class="form-control" id="geom_point" name="geom_point" rows="3"></textarea>
+                            <label for="geom_polyline" class="form-label">Geometry</label>
+                            <textarea class="form-control" id="geom_polyline" name="geom_polyline" rows="3"></textarea>
                         </div>
 
                         <div class="mb-3">
                             <label for="image" class="form-label">Photo</label>
-                            <input type="file" class="form-control" id="image_point" name="image"
-                                onchange="document.getElementById('preview-image-point').src = window.URL.createObjectURL(this.files[0])">
-                            <img src="" alt="" id="preview-image-point" class="img-thumbnail"
+                            <input type="file" class="form-control" id="image_polyline" name="image"
+                                onchange="document.getElementById('preview-image-polyline').src = window.URL.createObjectURL(this.files[0])">
+                            <img src="" alt="" id="preview-image-polyline" class="img-thumbnail"
                                 width="500">
                         </div>
-
                     </div>
 
                     <div class="modal-footer">
@@ -79,22 +74,14 @@
     <script src="https://unpkg.com/@terraformer/wkt"></script>
 
     <script>
-<<<<<<< HEAD
-        var map = L.map('map').setView([-2.5167439419713107, 140.7085320958573], 13);
-=======
         var map = L.map('map').setView([-2.5650107, 140.5072403], 13);
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
 
-<<<<<<< HEAD
-        /* Digitize Function */
-=======
         /* Digitize Function ==== ACARA 4 PGWL*/
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
         var drawnItems = new L.FeatureGroup();
         map.addLayer(drawnItems);
 
@@ -107,11 +94,8 @@
             }
         });
         map.addControl(drawControl);
-<<<<<<< HEAD
-=======
 
 
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
         map.on('draw:edited', function(e) {
             var layers = e.layers;
 
@@ -128,38 +112,23 @@
 
                 drawnItems.addLayer(layer);
 
-<<<<<<< HEAD
-                // menampilkan data ke dalam modal
-=======
                 //menampilkan data ke dalam modal
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
                 $('#name').val(properties.name);
                 $('#description').val(properties.description);
-                $('#geom_point').val(objectGeometry);
-                $('#preview-image-point').attr('src', "{{ asset('storage/images') }}/" + properties.image);
-<<<<<<< HEAD
-                // menampilkan edit point modal
-=======
+                $('#geom_polyline').val(objectGeometry);
+                $('#preview-image-polyline').attr('src', "{{ asset('storage/images') }}/" + properties
+                    .image);
 
                 //menampilkan modal edit
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
-                $('#editpointModal').modal('show');
+                $('#editpolylineModal').modal('show');
             });
         });
 
-<<<<<<< HEAD
-        // GeoJSON Points
-        var point = L.geoJson(null, {
+        // GeoJSON Polylines -- PGWEBL ACARA 6
+        var polyline = L.geoJson(null, {
             onEachFeature: function(feature, layer) {
 
-                // memasukkan layer point ke dalam drawnItems
-=======
-        // GeoJSON Points -- PGWEBL ACARA 6
-        var point = L.geoJson(null, {
-            onEachFeature: function(feature, layer) {
-
-                //memasukkan layer point ke dalam drawnItems
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
+                //memasukkan layer polyline ke dalam drawnItems
                 drawnItems.addLayer(layer);
 
                 var properties = feature.properties;
@@ -167,40 +136,24 @@
 
                 layer.on({
                     click: function(e) {
-<<<<<<< HEAD
-                        // menampilkan data ke dalam modal
-=======
                         //menampilkan data ke dalam modal
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
                         $('#name').val(properties.name);
                         $('#description').val(properties.description);
-                        $('#geom_point').val(objectGeometry);
-                        $('#preview-image-point').attr('src', "{{ asset('storage/images') }}/" +
+                        $('#geom_polyline').val(objectGeometry);
+                        $('#preview-image-polyline').attr('src', "{{ asset('storage/images') }}/" +
                             properties.image);
-<<<<<<< HEAD
-                        // menampilkan edit point modal
-=======
 
                         //menampilkan modal edit
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
-                        $('#editpointModal').modal('show');
+                        $('#editpolylineModal').modal('show');
                     },
                 });
             },
         });
-<<<<<<< HEAD
-
-=======
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
-        $.getJSON("{{ route('api.point', $id) }}", function(data) {
-            point.addData(data);
-            map.addLayer(point);
-            map.fitBounds(point.getBounds(), {
-<<<<<<< HEAD
-                padding: [100, 100]
-=======
+        $.getJSON("{{ route('api.polyline', $id) }}", function(data) {
+            polyline.addData(data);
+            map.addLayer(polyline);
+            map.fitBounds(polyline.getBounds(), {
                 padding: [200, 200]
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
             });
         });
     </script>

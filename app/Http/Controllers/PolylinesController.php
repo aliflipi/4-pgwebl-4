@@ -12,25 +12,19 @@ class PolylinesController extends Controller
         $this->polylines = new PolylinesModel();
     }
 
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
         //Validation request
@@ -82,33 +76,30 @@ class PolylinesController extends Controller
         return redirect()->route('map')->with('success', 'Polyline has been added');
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(string $id)
     {
-        //
+        $data = [
+            'title' => 'Edit Polyline',
+            'id' => $id,
+        ];
+
+        return view('edit-polyline', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, string $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(string $id)
     {
         $imagefile = $this->polylines->find($id)->image;

@@ -98,11 +98,20 @@ class PolygonsController extends Controller
      */
     public function edit(string $id)
     {
+<<<<<<< HEAD
         $data=[
             'title'=>'Edit Polygon',
             'id'=> $id,
         ];
        return view('edit-polygon', $data);
+=======
+        $data = [
+            'title' => 'Edit Polygon',
+            'id' => $id,
+        ];
+
+        return view('edit-polygon', $data);
+>>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
     }
 
     /**

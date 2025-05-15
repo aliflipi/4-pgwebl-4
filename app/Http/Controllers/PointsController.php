@@ -13,9 +13,7 @@ class PointsController extends Controller
         $this->points = new PointsModel();
     }
 
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $data = [
@@ -24,17 +22,13 @@ class PointsController extends Controller
         return view('map', $data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
         //Validation request
@@ -88,37 +82,38 @@ class PointsController extends Controller
         return redirect()->route('map')->with('success', 'Point has been added');
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(string $id)
     {
+<<<<<<< HEAD
         $data=[
             'title'=>'Edit Point',
             'id'=> $id,
         ];
        return view('edit-point', $data);
+=======
+        $data = [
+            'title' => 'Edit Point',
+            'id' => $id,
+        ];
+
+        return view('edit-point', $data);
+>>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, string $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(string $id)
     {
         $imagefile = $this->points->find($id)->image;
