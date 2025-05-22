@@ -73,7 +73,7 @@ class PointsController extends Controller
 
         //dd($data); //ini cuma ngecek dlm bentuk teks data geojson
 
-        // Create data to database
+        // create Data
         if (!$this->points->create($data)) {
             return redirect()->route('map')->with('error', 'Failed to add point');
         }
@@ -91,26 +91,69 @@ class PointsController extends Controller
 
     public function edit(string $id)
     {
-<<<<<<< HEAD
-        $data=[
-            'title'=>'Edit Point',
-            'id'=> $id,
+        $data = [
+            'title' => 'Edit Point',
+            'id' => $id,
         ];
-       return view('edit-point', $data);
-=======
+        return view('edit-point', $data);
         $data = [
             'title' => 'Edit Point',
             'id' => $id,
         ];
 
         return view('edit-point', $data);
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
     }
 
 
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate(
+            [
+                'name' => 'required|unique:points_tables,name,' . $id,
+                'description' => 'required',
+                'geom_point' => 'required',
+                'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:4048',
+            ],
+            [
+                'name.required' => 'Name is required',
+                'name.unique' => 'Name already exists',
+                'description.required' => 'Description is required',
+                'geom_point.required' => 'Location is required',
+            ]
+        );
+
+        // Pastikan direktori penyimpanan gambar ada
+        if (!is_dir('storage/images')) {
+            mkdir('storage/images', 0777, true);
+        }
+        $point = $this->points->find($id);
+        $old_image = $point->image;
+        // Handle upload image baru
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $name_image = time() . "_point." . strtolower($image->getClientOriginalExtension());
+            $image->move('storage/images', $name_image);
+
+            // Hapus gambar lama jika ada
+            if ($old_image && file_exists('storage/images/' . $old_image)) {
+                unlink('storage/images/' . $old_image);
+            }
+        } else {
+            // Tidak upload gambar baru, gunakan gambar lama
+            $name_image = $old_image;
+        }
+        $data = [
+            'geom' => $request->geom_point,
+            'name' => $request->name,
+            'description' => $request->description,
+            'image' => $name_image,
+        ];
+
+        if (!$point->update($data)) {
+            return redirect()->route('map')->with('error', 'Failed to update point');
+        }
+
+        return redirect()->route('map')->with('success', 'Point has been updated');
     }
 
 

@@ -15,7 +15,10 @@ class PolylinesController extends Controller
 
     public function index()
     {
-        //
+        $data = [
+            'title' => 'Map'
+        ];
+        return view('map', $data);
     }
 
 
@@ -89,6 +92,11 @@ class PolylinesController extends Controller
             'title' => 'Edit Polyline',
             'id' => $id,
         ];
+        return view('edit-polyline', $data);
+        $data = [
+            'title' => 'Edit Polyline',
+            'id' => $id,
+        ];
 
         return view('edit-polyline', $data);
     }
@@ -96,7 +104,62 @@ class PolylinesController extends Controller
 
     public function update(Request $request, string $id)
     {
-        //
+        //Validation request
+        $request->validate(
+            [
+                'name' => 'required|unique:polylines,name,' . $id,
+                'description' => 'required',
+                'geom_polyline' => 'required',
+                'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:4048',
+            ],
+            [
+                'name.required' => 'Name is required',
+                'name.unique' => 'Name already exists',
+                'description.required' => 'Description is required',
+                'geom_polyline.required' => 'Location is required',
+            ]
+
+        );
+
+        // Create image directory if not exists
+        if (!is_dir('storage/images')) {
+            mkdir('./storage/images', 0777, true);
+        }
+
+        $polyline = $this->polylines->find($id);
+        $old_image = $polyline->image;
+
+        // Get image file
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $name_image = time() . "_polyline." . strtolower($image->getClientOriginalExtension());
+            $image->move('storage/images', $name_image);
+
+            // Hapus gambar lama jika ada
+            if ($old_image && file_exists('storage/images/' . $old_image)) {
+                unlink('storage/images/' . $old_image);
+            }
+        } else {
+            $name_image = null;
+        }
+
+        // Get data from bootstrap form
+        $data = [
+            'geom' => $request->geom_polyline,
+            'name' => $request->name,
+            'description' => $request->description,
+            'image' => $name_image,
+        ];
+
+        //dd($data); //ini cuma ngecek dlm bentuk teks data geojson
+
+        // create Data
+        if (!$polyline->update($data)) {
+            return redirect()->route('map')->with('error', 'Failed to update point');
+        }
+
+        // Redirect to map
+        return redirect()->route('map')->with('success', 'Polyline has been added');
     }
 
 

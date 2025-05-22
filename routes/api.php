@@ -10,19 +10,8 @@ Route::get('/user', function (Request $request) {
 
 Route::get('/points', [ApiController::class, 'points'])->name('api.points');
 Route::get('/point/{id}', [ApiController::class, 'point'])->name('api.point');
-
-<<<<<<< HEAD
-
-Route::get('/polylines', [ApiController::class, 'polylines'])->name('api.polylines');
-Route::get('/polyline', [ApiController::class, 'polyline'])->name('api.polyline');
-
-Route::get('/polygons', [ApiController::class, 'polygons'])->name('api.polygons');
-Route::get('/polygon', [ApiController::class, 'polygon'])->name('api.polygon');
-=======
 Route::get('/polylines', [ApiController::class, 'polylines'])->name('api.polylines');
 Route::get('/polyline/{id}', [ApiController::class, 'polyline'])->name('api.polyline');
-
 Route::get('/polygons', [ApiController::class, 'polygons'])->name('api.polygons');
 Route::get('/polygon/{id}', [ApiController::class, 'polygon'])->name('api.polygon');
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
 

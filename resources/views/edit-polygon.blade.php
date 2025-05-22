@@ -15,36 +15,25 @@
 @section('content')
     <div id="map"></div>
 
-<<<<<<< HEAD
-    <!-- Modal Edit Point -->
-    <div class="modal fade" id="editpointModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Create Point</h1>
-=======
     <!-- Modal Edit Polygon -->
     <div class="modal fade" id="editpolygonModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Polygon</h1>
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
+
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <form method="POST" action="{{ route('polygons.store') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('polygons.update', $id) }}" enctype="multipart/form-data">
                     <div class="modal-body">
                         @csrf
+                        @method('PATCH')
 
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
                             <input type="text" class="form-control" id="name" name="name"
-<<<<<<< HEAD
                                 placeholder="Fill the polygon name">
-=======
-                                placeholder="Fill the point name">
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
                         </div>
 
                         <div class="mb-3">
@@ -53,30 +42,20 @@
                         </div>
 
                         <div class="mb-3">
-<<<<<<< HEAD
-                            <label for="geom_point" class="form-label">Geometry</label>
-                            <textarea class="form-control" id="geom_point" name="geom_point" rows="3"></textarea>
-=======
+
                             <label for="geom_polygon" class="form-label">Geometry</label>
                             <textarea class="form-control" id="geom_polygon" name="geom_polygon" rows="3"></textarea>
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
+
                         </div>
 
                         <div class="mb-3">
                             <label for="image" class="form-label">Photo</label>
-<<<<<<< HEAD
-                            <input type="file" class="form-control" id="image_point" name="image"
-=======
                             <input type="file" class="form-control" id="image_polygon" name="image"
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
                                 onchange="document.getElementById('preview-image-polygon').src = window.URL.createObjectURL(this.files[0])">
                             <img src="" alt="" id="preview-image-polygon" class="img-thumbnail"
                                 width="500">
                         </div>
-<<<<<<< HEAD
 
-=======
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
                     </div>
 
                     <div class="modal-footer">
@@ -100,22 +79,13 @@
     <script src="https://unpkg.com/@terraformer/wkt"></script>
 
     <script>
-<<<<<<< HEAD
         var map = L.map('map').setView([-2.5167439419713107, 140.7085320958573], 13);
-=======
-        var map = L.map('map').setView([-2.5650107, 140.5072403], 13);
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-
-<<<<<<< HEAD
         /* Digitize Function */
-=======
-        /* Digitize Function ==== ACARA 4 PGWL*/
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
         var drawnItems = new L.FeatureGroup();
         map.addLayer(drawnItems);
 
@@ -128,11 +98,7 @@
             }
         });
         map.addControl(drawControl);
-<<<<<<< HEAD
-=======
 
-
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
         map.on('draw:edited', function(e) {
             var layers = e.layers;
 
@@ -149,84 +115,41 @@
 
                 drawnItems.addLayer(layer);
 
-<<<<<<< HEAD
                 // menampilkan data ke dalam modal
                 $('#name').val(properties.name);
                 $('#description').val(properties.description);
-                $('#geom_point').val(objectGeometry);
-                $('#preview-image-polygon').attr('src', "{{ asset('storage/images') }}/" + properties.image);
+                $('#geom_polygon').val(objectGeometry);
+                $('#preview-image-polygon').attr('src', "{{ asset('storage/images') }}/" + properties
+                .image);
+
                 // menampilkan edit polygon modal
-                $('#editpointModal').modal('show');
+                $('#editpolygonModal').modal('show');
             });
         });
 
         // GeoJSON Polygon
         var polygon = L.geoJson(null, {
             onEachFeature: function(feature, layer) {
-
-                // memasukkan layer polygon ke dalam drawnItems
-=======
-                //menampilkan data ke dalam modal
-                $('#name').val(properties.name);
-                $('#description').val(properties.description);
-                $('#geom_polygon').val(objectGeometry);
-                $('#preview-image-polygon').attr('src', "{{ asset('storage/images') }}/" + properties.image);
-
-                //menampilkan modal edit
-                $('#editpolygonModal').modal('show');
-            });
-        });
-
-        // GeoJSON Polygons -- PGWEBL ACARA 6
-        var polygon = L.geoJson(null, {
-            onEachFeature: function(feature, layer) {
-
-                //memasukkan layer polygon ke dalam drawnItems
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
                 drawnItems.addLayer(layer);
 
                 var properties = feature.properties;
                 var objectGeometry = Terraformer.geojsonToWKT(feature.geometry);
 
-                layer.on({
-                    click: function(e) {
-<<<<<<< HEAD
-                        // menampilkan data ke dalam modal
-                        $('#name').val(properties.name);
-                        $('#description').val(properties.description);
-                        $('#geom_point').val(objectGeometry);
-                        $('#preview-image-polygon').attr('src', "{{ asset('storage/images') }}/" +
-                            properties.image);
-                        // menampilkan edit polygon modal
-                        $('#editpointModal').modal('show');
-=======
-                        //menampilkan data ke dalam modal
-                        $('#name').val(properties.name);
-                        $('#description').val(properties.description);
-                        $('#geom_polygon').val(objectGeometry);
-                        $('#preview-image-polygon').attr('src', "{{ asset('storage/images') }}/" +
-                            properties.image);
-
-                        //menampilkan modal edit
-                        $('#editpolygonModal').modal('show');
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
-                    },
+                layer.on('click', function(e) {
+                    $('#name').val(properties.name);
+                    $('#description').val(properties.description);
+                    $('#geom_polygon').val(objectGeometry);
+                    $('#preview-image-polygon').attr('src', "{{ asset('storage/images') }}/" + properties
+                        .image);
+                    $('#editpolygonModal').modal('show');
                 });
-            },
+            }
         });
-<<<<<<< HEAD
-
-=======
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
-        $.getJSON("{{ route('api.polygon', $id) }}", function(data) {
+        $.getJSON("{{ route('api.polygons', $id) }}", function(data) {
             polygon.addData(data);
             map.addLayer(polygon);
             map.fitBounds(polygon.getBounds(), {
-<<<<<<< HEAD
                 padding: [100, 100]
-=======
-                padding: [200, 200]
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
             });
         });
     </script>

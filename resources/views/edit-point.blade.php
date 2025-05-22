@@ -20,17 +20,16 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-<<<<<<< HEAD
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Create Point</h1>
-=======
+
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Point</h1>
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
+
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <form method="POST" action="{{ route('points.store') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('points.update', $id) }}" enctype="multipart/form-data">
                     <div class="modal-body">
                         @csrf
+                        @method('PATCH')
 
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
@@ -79,22 +78,13 @@
     <script src="https://unpkg.com/@terraformer/wkt"></script>
 
     <script>
-<<<<<<< HEAD
         var map = L.map('map').setView([-2.5167439419713107, 140.7085320958573], 13);
-=======
-        var map = L.map('map').setView([-2.5650107, 140.5072403], 13);
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-
-<<<<<<< HEAD
         /* Digitize Function */
-=======
-        /* Digitize Function ==== ACARA 4 PGWL*/
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
         var drawnItems = new L.FeatureGroup();
         map.addLayer(drawnItems);
 
@@ -107,11 +97,7 @@
             }
         });
         map.addControl(drawControl);
-<<<<<<< HEAD
-=======
 
-
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
         map.on('draw:edited', function(e) {
             var layers = e.layers;
 
@@ -128,79 +114,41 @@
 
                 drawnItems.addLayer(layer);
 
-<<<<<<< HEAD
                 // menampilkan data ke dalam modal
-=======
-                //menampilkan data ke dalam modal
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
                 $('#name').val(properties.name);
                 $('#description').val(properties.description);
                 $('#geom_point').val(objectGeometry);
                 $('#preview-image-point').attr('src', "{{ asset('storage/images') }}/" + properties.image);
-<<<<<<< HEAD
-                // menampilkan edit point modal
-=======
 
-                //menampilkan modal edit
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
+                // menampilkan edit point modal
+
                 $('#editpointModal').modal('show');
             });
         });
 
-<<<<<<< HEAD
         // GeoJSON Points
         var point = L.geoJson(null, {
             onEachFeature: function(feature, layer) {
-
-                // memasukkan layer point ke dalam drawnItems
-=======
-        // GeoJSON Points -- PGWEBL ACARA 6
-        var point = L.geoJson(null, {
-            onEachFeature: function(feature, layer) {
-
-                //memasukkan layer point ke dalam drawnItems
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
                 drawnItems.addLayer(layer);
 
                 var properties = feature.properties;
                 var objectGeometry = Terraformer.geojsonToWKT(feature.geometry);
 
-                layer.on({
-                    click: function(e) {
-<<<<<<< HEAD
-                        // menampilkan data ke dalam modal
-=======
-                        //menampilkan data ke dalam modal
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
-                        $('#name').val(properties.name);
-                        $('#description').val(properties.description);
-                        $('#geom_point').val(objectGeometry);
-                        $('#preview-image-point').attr('src', "{{ asset('storage/images') }}/" +
-                            properties.image);
-<<<<<<< HEAD
-                        // menampilkan edit point modal
-=======
-
-                        //menampilkan modal edit
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
-                        $('#editpointModal').modal('show');
-                    },
+                layer.on('click', function(e) {
+                    $('#name').val(properties.name);
+                    $('#description').val(properties.description);
+                    $('#geom_point').val(objectGeometry);
+                    $('#preview-image-point').attr('src', "{{ asset('storage/images') }}/" + properties
+                        .image);
+                    $('#editpointModal').modal('show');
                 });
-            },
+            }
         });
-<<<<<<< HEAD
-
-=======
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
         $.getJSON("{{ route('api.point', $id) }}", function(data) {
             point.addData(data);
             map.addLayer(point);
             map.fitBounds(point.getBounds(), {
-<<<<<<< HEAD
                 padding: [100, 100]
-=======
-                padding: [200, 200]
->>>>>>> 36ca44b9dd0ebefb409aab6cf04f3763550cab5b
             });
         });
     </script>

@@ -37,14 +37,6 @@ class ApiController extends Controller
     }
 
 
-    public function point($id)
-    {
-        $points = $this->points->geojson_point($id);
-        return response()->json($points, 200, [], JSON_NUMERIC_CHECK);
-    }
-
-
-
     public function polylines()
     {
         $polylines = $this->polylines->geojson_polylines();
