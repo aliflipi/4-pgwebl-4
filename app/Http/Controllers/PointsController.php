@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\PointsModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+
 
 class PointsController extends Controller
 {
+    protected $points;
 
     public function __construct()
     {
@@ -17,7 +20,8 @@ class PointsController extends Controller
     public function index()
     {
         $data = [
-            'title' => 'Map'
+            'title' => 'Map',
+            // 'points' => $this->points->all()
         ];
         return view('map', $data);
     }
@@ -69,6 +73,7 @@ class PointsController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'image' => $name_image,
+            'user_id' => auth()->user()->id,
         ];
 
         //dd($data); //ini cuma ngecek dlm bentuk teks data geojson
@@ -95,14 +100,10 @@ class PointsController extends Controller
             'title' => 'Edit Point',
             'id' => $id,
         ];
-        return view('edit-point', $data);
-        $data = [
-            'title' => 'Edit Point',
-            'id' => $id,
-        ];
 
         return view('edit-point', $data);
     }
+
 
 
     public function update(Request $request, string $id)
@@ -110,6 +111,7 @@ class PointsController extends Controller
         $request->validate(
             [
                 'name' => 'required|unique:points_tables,name,' . $id,
+                // 'name' => 'required|unique:points,name,' . $id,
                 'description' => 'required',
                 'geom_point' => 'required',
                 'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:4048',
@@ -126,17 +128,23 @@ class PointsController extends Controller
         if (!is_dir('storage/images')) {
             mkdir('storage/images', 0777, true);
         }
-        $point = $this->points->find($id);
-        $old_image = $point->image;
+
+
+        // $point = $this->points->find($id);
+        // $old_image = $point->image;
+
+        $old_image = $this->points->find($id)->image;
         // Handle upload image baru
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $name_image = time() . "_point." . strtolower($image->getClientOriginalExtension());
             $image->move('storage/images', $name_image);
 
-            // Hapus gambar lama jika ada
-            if ($old_image && file_exists('storage/images/' . $old_image)) {
-                unlink('storage/images/' . $old_image);
+            if ($old_image != null) {
+                // Hapus gambar lama jika ada
+                if (file_exists('storage/images/' . $old_image)) {
+                    unlink('storage/images/' . $old_image);
+                }
             }
         } else {
             // Tidak upload gambar baru, gunakan gambar lama
@@ -149,9 +157,13 @@ class PointsController extends Controller
             'image' => $name_image,
         ];
 
-        if (!$point->update($data)) {
+        if (!$this->points->find($id)->update($data)) {
             return redirect()->route('map')->with('error', 'Failed to update point');
         }
+
+        // if (!$point->update($data)) {
+        //     return redirect()->route('map')->with('error', 'Failed to update point');
+        // }
 
         return redirect()->route('map')->with('success', 'Point has been updated');
     }
@@ -173,5 +185,15 @@ class PointsController extends Controller
         }
 
         return redirect()->route('map')->with('success', 'Point has been deleted');
+    }
+
+
+    public function table()
+    {
+        $data = [
+            'title' => 'Points Table',
+            'points' => $this->points->all()
+        ];
+        return view('table', $data);
     }
 }

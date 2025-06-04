@@ -257,8 +257,7 @@
                     '@csrf' + '@method('DELETE')' +
                     "<button type='submit' class='btn btn-sm btn-danger' onclick='return confirm(`Yakin Akan dihapus?`)'><i class='fa-solid fa-trash'></i></button>" +
                     "</form>" +
-                    "</div>" +
-
+                    "</div>" + "<br>" + "<p>Dibuat: " + feature.properties.user_created + "</p>" +
                     "</div>";
 
                 layer.on({
@@ -306,6 +305,7 @@
                     "</form>" +
                     "</div>" +
 
+                    "</div>" + "<br>" + "<p>Dibuat: " + feature.properties.user_created + "</p>" +
                     "</div>";
                 layer.on({
                     click: function(e) {
@@ -340,7 +340,6 @@
                     "' width='300px' alt=''>" + "<br>" +
 
                     "<div class='row mt-4'>" +
-
                     "<div class='col-6 text-end'>" +
                     "<a href='" + routeedit +
                     "' class='btn btn-warning btn-sm'><i class='fa-solid fa-pen-to-square'></i></a>" +
@@ -352,13 +351,8 @@
                     "<button type='submit' class='btn btn-sm btn-danger' onclick='return confirm(`Yakin Mau Dihapus??`)'><i class='fa-solid fa-trash'></i></button>" +
                     "</form>" +
                     "</div>" +
-                    "</div>";
+                    "</div>" + "<br>" + "<p>Dibuat: " + feature.properties.user_created + "</p>";
 
-                    "<div class='col-6'>" +
-                    "<a href='" + routeedit + "' class='btn btn-sm btn-warning'><i class='fa-solid fa-pen-to-square'></i></a>" +
-                    "</div>" +
-
-                    "</div>";
                 layer.on({
                     click: function(e) {
                         polygon.bindPopup(popupContent);

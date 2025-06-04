@@ -16,19 +16,14 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'nadinezahida',
-            'email' => 'nadinezahidafaadhilah@mail.ugm.ac.id',
-            'password' => bcrypt('7027Dothebest'),
+            'name' => 'Alif',
+            'email' => 'alif@gmail.com',
+            'password' => bcrypt('alif123'),
         ]);
         User::factory()->create([
-            'name' => 'heizou',
-            'email' => 'thegreatestdetective@gmail.com',
-            'password' => bcrypt('shikanoinheizou'),
-        ]);
-        User::factory()->create([
-            'name' => 'asaba',
-            'email' => 'tiredofwork@gmail.com',
-            'password' => bcrypt('harumasaneedbreak'),
+            'name' => 'Alifiuw',
+            'email' => 'admin@gmail.com',
+            'password' => bcrypt('admin123'),
         ]);
     }
 }
